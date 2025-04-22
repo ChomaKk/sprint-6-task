@@ -8,7 +8,6 @@ import (
 	"net/http"
 	"os"
 	"time"
-	"unicode"
 )
 
 const indexFilePath = "index.html"
@@ -35,13 +34,6 @@ func HandleUpload(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		http.Error(w, "Failed to read file", http.StatusInternalServerError)
 		return
-	}
-
-	for _, char := range data {
-		if unicode.Is(unicode.Latin, rune(char)) {
-			http.Error(w, "File contains invalid characters", http.StatusInternalServerError)
-			return
-		}
 	}
 
 	convertedData := service.Convert(string(data))
